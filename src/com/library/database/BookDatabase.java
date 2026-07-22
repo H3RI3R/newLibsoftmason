@@ -15,9 +15,9 @@ public class BookDatabase {
             Class.forName("com.mysql.cj.jdbc.Driver");
 
             connection = DriverManager.getConnection(
-                    "jdbc:mysql://localhost:3307/book_management_system",
+                    "jdbc:mysql://localhost:3306/book_management_system",
                     "root",
-                    "12345678");
+                    "Ajay@2001");
 
         } catch (ClassNotFoundException e) {
 

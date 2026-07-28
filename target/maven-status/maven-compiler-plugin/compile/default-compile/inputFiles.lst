@@ -1,0 +1,15 @@
+/Users/ritiksoni/Documents/newcoreLin/newLibsoftmason/src/main/java/com/library/app/BookApp.java
+/Users/ritiksoni/Documents/newcoreLin/newLibsoftmason/src/main/java/com/library/app/main.java
+/Users/ritiksoni/Documents/newcoreLin/newLibsoftmason/src/main/java/com/library/dao/BookDAO.java
+/Users/ritiksoni/Documents/newcoreLin/newLibsoftmason/src/main/java/com/library/dao/StudentDAO.java
+/Users/ritiksoni/Documents/newcoreLin/newLibsoftmason/src/main/java/com/library/database/BookDatabase.java
+/Users/ritiksoni/Documents/newcoreLin/newLibsoftmason/src/main/java/com/library/database/DatabaseConnection.java
+/Users/ritiksoni/Documents/newcoreLin/newLibsoftmason/src/main/java/com/library/database/TestConnection.java
+/Users/ritiksoni/Documents/newcoreLin/newLibsoftmason/src/main/java/com/library/entity/BookEntity.java
+/Users/ritiksoni/Documents/newcoreLin/newLibsoftmason/src/main/java/com/library/entity/Student.java
+/Users/ritiksoni/Documents/newcoreLin/newLibsoftmason/src/main/java/com/library/exception/BookException.java
+/Users/ritiksoni/Documents/newcoreLin/newLibsoftmason/src/main/java/com/library/menu/BookMenu.java
+/Users/ritiksoni/Documents/newcoreLin/newLibsoftmason/src/main/java/com/library/menu/StudentMenu.java
+/Users/ritiksoni/Documents/newcoreLin/newLibsoftmason/src/main/java/com/library/service/BookService.java
+/Users/ritiksoni/Documents/newcoreLin/newLibsoftmason/src/main/java/com/library/service/StudentService.java
+/Users/ritiksoni/Documents/newcoreLin/newLibsoftmason/src/main/java/com/library/util/BookUtil.java

@@ -119,10 +119,10 @@ public class StudentService {
             Student student
     ) {
 
-        System.out.println(
-                "\nStudent ID   : "
-                        + student.studentId
-        );
+//        System.out.println(
+//                "\nStudent ID   : "
+//                        + student.studentId
+//        );
 
         System.out.println(
                 "Student Name : "

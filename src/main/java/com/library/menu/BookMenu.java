@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 import com.library.entity.BookEntity;
 import com.library.service.BookService;
+import com.library.service.StudentService;
 
 public class BookMenu {
 
@@ -12,6 +13,7 @@ public class BookMenu {
 
         Scanner sc = new Scanner(System.in);
         BookService service = new BookService();
+        StudentService studentService = new StudentService();
 
         while (true) {
 
@@ -23,7 +25,12 @@ public class BookMenu {
             System.out.println("3. Search Book");
             System.out.println("4. Update Book");
             System.out.println("5. Delete Book");
-            System.out.println("6. Exit");
+            System.out.println("6. Register Student");
+            System.out.println("7. View All Students");
+            System.out.println("8. Search Student");
+            System.out.println("9. Update Student");
+            System.out.println("10. Delete Student");
+            System.out.println("11. Exit");
             System.out.println("====================================");
 
             System.out.print("Enter your choice: ");
@@ -103,8 +110,26 @@ public class BookMenu {
 
                     service.deleteBook(deleteId);
                     break;
-
                 case 6:
+                 StudentMenu.registerStudent();
+                    break;
+
+                case 7:
+                  studentService.viewAllStudents();
+                    break;
+
+                case 8:
+                    StudentMenu.searchStudent();
+                    break;
+
+                case 9:
+                    StudentMenu.updateStudent();
+                    break;
+
+                case 10:
+                     StudentMenu.deleteStudent();
+                    break;
+                case 11:
 
                     System.out.println("Thank You!");
                     sc.close();

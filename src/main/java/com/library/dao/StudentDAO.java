@@ -1,6 +1,6 @@
 package com.library.dao;
 
-import com.library.database.DatabaseConnection;
+import com.library.database.BookDatabase;
 import com.library.entity.Student;
 
 import java.sql.Connection;
@@ -18,30 +18,22 @@ public class StudentDAO {
 
     public boolean studentExists(int studentId) {
 
-        String sql =
-                "SELECT student_id FROM students WHERE student_id = ?";
+        String sql = "SELECT student_id FROM students WHERE studentId = ?";
 
         try (
-                Connection connection =
-                        DatabaseConnection.getConnection();
-
-                PreparedStatement statement =
-                        connection.prepareStatement(sql)
+                Connection connection = BookDatabase.getConnection();
+                PreparedStatement statement = connection.prepareStatement(sql)
         ) {
 
             statement.setInt(1, studentId);
 
-            ResultSet resultSet =
-                    statement.executeQuery();
-
-            return resultSet.next();
+            try (ResultSet resultSet = statement.executeQuery()) {
+                return resultSet.next();
+            }
 
         } catch (SQLException e) {
 
-            System.out.println(
-                    "Database error: " + e.getMessage()
-            );
-
+            System.out.println("Database error: " + e.getMessage());
             return false;
         }
     }
@@ -53,82 +45,30 @@ public class StudentDAO {
 
     public boolean addStudent(Student student) {
 
-        // First check duplicate Student ID
 
-        if (studentExists(student.studentId)) {
-
-            System.out.println(
-                    "Student ID already exists!"
-            );
-
-            System.out.println(
-                    "Please use another Student ID."
-            );
-
-            return false;
-        }
 
 
         String sql = """
-                INSERT INTO students
-                (student_id, student_name, department, year, section,
-                 roll_number, phone, email, address)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+INSERT INTO students
+(student_name, department, year, section,
+roll_number, phone, email, address)
+VALUES (?, ?, ?, ?, ?, ?, ?, ?)
                 """;
 
         try (
-                Connection connection =
-                        DatabaseConnection.getConnection();
 
+                Connection connection= BookDatabase.getConnection();
                 PreparedStatement statement =
                         connection.prepareStatement(sql)
         ) {
-
-            statement.setInt(
-                    1,
-                    student.studentId
-            );
-
-            statement.setString(
-                    2,
-                    student.studentName
-            );
-
-            statement.setString(
-                    3,
-                    student.department
-            );
-
-            statement.setInt(
-                    4,
-                    student.year
-            );
-
-            statement.setString(
-                    5,
-                    student.section
-            );
-
-            statement.setString(
-                    6,
-                    student.rollNumber
-            );
-
-            statement.setString(
-                    7,
-                    student.phone
-            );
-
-            statement.setString(
-                    8,
-                    student.email
-            );
-
-            statement.setString(
-                    9,
-                    student.address
-            );
-
+            statement.setString(1, student.studentName);
+            statement.setString(2, student.department);
+            statement.setInt(3, student.year);
+            statement.setString(4, student.section);
+            statement.setString(5, student.rollNumber);
+            statement.setString(6, student.phone);
+            statement.setString(7, student.email);
+            statement.setString(8, student.address);
             int rows =
                     statement.executeUpdate();
 
@@ -159,8 +99,8 @@ public class StudentDAO {
                 "SELECT * FROM students";
 
         try (
-                Connection connection =
-                        DatabaseConnection.getConnection();
+                Connection connection= BookDatabase.getConnection();
+
 
                 PreparedStatement statement =
                         connection.prepareStatement(sql);
@@ -192,39 +132,27 @@ public class StudentDAO {
     // ==========================================
     // 4. SEARCH STUDENT BY ID
     // ==========================================
-
     public Student searchStudent(int studentId) {
 
-        String sql =
-                "SELECT * FROM students WHERE student_id = ?";
+        String sql = "SELECT * FROM students WHERE studentId = ?";
 
         try (
-                Connection connection =
-                        DatabaseConnection.getConnection();
-
-                PreparedStatement statement =
-                        connection.prepareStatement(sql)
+                Connection connection = BookDatabase.getConnection();
+                PreparedStatement statement = connection.prepareStatement(sql)
         ) {
 
-            statement.setInt(
-                    1,
-                    studentId
-            );
+            statement.setInt(1, studentId);
 
-            ResultSet resultSet =
-                    statement.executeQuery();
+            try (ResultSet resultSet = statement.executeQuery()) {
 
-            if (resultSet.next()) {
-
-                return createStudent(resultSet);
+                if (resultSet.next()) {
+                    return createStudent(resultSet);
+                }
             }
 
         } catch (SQLException e) {
 
-            System.out.println(
-                    "Database error: "
-                            + e.getMessage()
-            );
+            System.out.println("Database error: " + e.getMessage());
         }
 
         return null;
@@ -235,53 +163,26 @@ public class StudentDAO {
     // 5. UPDATE STUDENT
     // ==========================================
 
-    public boolean updateStudent(
-            int studentId,
-            String newPhone,
-            String newEmail
-    ) {
+    public boolean updateStudent(int studentId, String newPhone, String newEmail) {
 
-        String sql = """
-                UPDATE students
-                SET phone = ?, email = ?
-                WHERE student_id = ?
-                """;
+        String sql = "UPDATE students SET phone = ?, email = ? WHERE studentId = ?";
 
         try (
-                Connection connection =
-                        DatabaseConnection.getConnection();
-
-                PreparedStatement statement =
-                        connection.prepareStatement(sql)
+                Connection connection = BookDatabase.getConnection();
+                PreparedStatement statement = connection.prepareStatement(sql)
         ) {
 
-            statement.setString(
-                    1,
-                    newPhone
-            );
+            statement.setString(1, newPhone);
+            statement.setString(2, newEmail);
+            statement.setInt(3, studentId);
 
-            statement.setString(
-                    2,
-                    newEmail
-            );
-
-            statement.setInt(
-                    3,
-                    studentId
-            );
-
-            int rows =
-                    statement.executeUpdate();
+            int rows = statement.executeUpdate();
 
             return rows > 0;
 
         } catch (SQLException e) {
 
-            System.out.println(
-                    "Database error: "
-                            + e.getMessage()
-            );
-
+            System.out.println("Database error: " + e.getMessage());
             return false;
         }
     }
@@ -294,11 +195,11 @@ public class StudentDAO {
     public boolean deleteStudent(int studentId) {
 
         String sql =
-                "DELETE FROM students WHERE student_id = ?";
+                "DELETE FROM students WHERE studentId = ?";
 
         try (
-                Connection connection =
-                        DatabaseConnection.getConnection();
+                Connection connection= BookDatabase.getConnection();
+
 
                 PreparedStatement statement =
                         connection.prepareStatement(sql)
@@ -338,8 +239,7 @@ public class StudentDAO {
         Student student =
                 new Student();
 
-        student.studentId =
-                resultSet.getInt("student_id");
+
 
         student.studentName =
                 resultSet.getString("student_name");

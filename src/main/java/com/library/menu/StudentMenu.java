@@ -7,16 +7,16 @@ import java.util.Scanner;
 
 public class StudentMenu {
 
-    Scanner scanner = new Scanner(System.in);
+    static Scanner scanner = new Scanner(System.in);
 
-    StudentService studentService = new StudentService();
+    static StudentService studentService = new StudentService();
 
 
     // ==========================================
     // SHOW STUDENT MANAGEMENT MENU
     // ==========================================
 
-    public void showMenu() {
+    public  static void showMenu() {
 
         int choice;
 
@@ -73,14 +73,14 @@ public class StudentMenu {
     // 1. REGISTER STUDENT
     // ==========================================
 
-    public void registerStudent() {
+    public static void registerStudent() {
 
         Student student = new Student();
 
 
         // Student ID
-        student.studentId =
-                readInt("Enter Student ID: ");
+//        student.studentId =
+//                readInt("Enter Student ID: ");
 
 
         // Student Name
@@ -183,7 +183,7 @@ public class StudentMenu {
     // 3. SEARCH STUDENT
     // ==========================================
 
-    public void searchStudent() {
+    public static void searchStudent() {
 
         int studentId =
                 readInt(
@@ -216,7 +216,7 @@ public class StudentMenu {
     // 4. UPDATE STUDENT
     // ==========================================
 
-    public void updateStudent() {
+    public static void updateStudent() {
 
         int studentId =
                 readInt(
@@ -320,7 +320,7 @@ public class StudentMenu {
     // 5. DELETE STUDENT
     // ==========================================
 
-    public void deleteStudent() {
+    public static void deleteStudent() {
 
         int studentId =
                 readInt(
@@ -351,7 +351,7 @@ public class StudentMenu {
     // HELPER METHOD - READ INTEGER
     // ==========================================
 
-    private int readInt(String message) {
+    private static int readInt(String message) {
 
         while (true) {
 
@@ -378,7 +378,7 @@ public class StudentMenu {
     // HELPER METHOD - EMPTY INPUT CHECK
     // ==========================================
 
-    private String readNonEmpty(
+    private static String readNonEmpty(
             String message
     ) {
 
@@ -406,7 +406,7 @@ public class StudentMenu {
     // HELPER METHOD - EMAIL VALIDATION
     // ==========================================
 
-    private boolean isValidEmail(
+    private static boolean isValidEmail(
             String email
     ) {
 
@@ -420,14 +420,14 @@ public class StudentMenu {
     // HELPER METHOD - DISPLAY STUDENT
     // ==========================================
 
-    private void displayStudent(
+    private static void displayStudent(
             Student student
     ) {
 
-        System.out.println(
-                "Student ID   : "
-                        + student.studentId
-        );
+//        System.out.println(
+//                "Student ID   : "
+//                        + student.studentId
+//        );
 
         System.out.println(
                 "Student Name : "

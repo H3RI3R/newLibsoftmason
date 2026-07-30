@@ -3,20 +3,25 @@ package com.library.menu;
 import java.util.Scanner;
 
 import com.library.entity.BookEntity;
+import com.library.entity.IssuedBookEntity;
 import com.library.service.BookService;
+import com.library.service.IssuedBookService;
 import com.library.service.StudentService;
 
+
 public class BookMenu {
-public static void validYear(int year){
-    if(year < 1000 || year>9999){
-        System.out.println("Year is Not a valid Year it should be between 1000 and 9999");
-        System.out.println("Please Enter a valid Year: ");
-        Scanner sc = new Scanner(System.in);
-        year = sc.nextInt();
-        validYear(year);
+    static IssuedBookService issuedService = new IssuedBookService();
+    static IssuedBookEntity issue = new IssuedBookEntity();
+    public static void validYear(int year){
+        if(year < 1000 || year>9999){
+            System.out.println("Year is Not a valid Year it should be between 1000 and 9999");
+            System.out.println("Please Enter a valid Year: ");
+            Scanner sc = new Scanner(System.in);
+            year = sc.nextInt();
+            validYear(year);
+        }
+        System.out.println("The year is Valid Year: " + year);
     }
-    System.out.println("The year is Valid Year: " + year);
-}
     public static void displayMenu() {
 
 
@@ -144,11 +149,11 @@ public static void validYear(int year){
                     service.deleteBook(deleteId);
                     break;
                 case 6:
-                 StudentMenu.registerStudent();
+                    StudentMenu.registerStudent();
                     break;
 
                 case 7:
-                  studentService.viewAllStudents();
+                    studentService.viewAllStudents();
                     break;
 
                 case 8:
@@ -160,13 +165,63 @@ public static void validYear(int year){
                     break;
 
                 case 10:
-                     StudentMenu.deleteStudent();
+                    StudentMenu.deleteStudent();
                     break;
                 case 11:
 
+
+
+                    System.out.print("Enter Student ID: ");
+                    issue.setStudentId(sc.nextInt());
+
+                    System.out.print("Enter Book ID: ");
+                    issue.setBookId(sc.nextInt());
+
+                    sc.nextLine();
+
+                    System.out.print("Enter Return Date (yyyy-MM-dd): ");
+                    issue.setReturnDate(java.time.LocalDate.parse(sc.nextLine()));
+
+                    issue.setIssueDate(java.time.LocalDate.now());
+
+                    issuedService.issueBook(issue);
+
+                    break;
+
+                case 12:
+
+                    issuedService.viewAllIssuedBooks();
+
+                    break;
+
+                case 13:
+
+                    System.out.print("Enter Issued Book ID: ");
+
+                    int issuedBookId = sc.nextInt();
+
+                    issuedService.searchIssuedBook(issuedBookId);
+
+                    break;
+
+                case 14:
+
+                    System.out.print("Enter Issued Book ID: ");
+
+                    int returnId = sc.nextInt();
+
+                    issuedService.returnBook(returnId);
+
+                    break;
+
+                case 15:
+
                     System.out.println("Thank You!");
+
                     sc.close();
+
                     System.exit(0);
+
                     break;
 
                 default:

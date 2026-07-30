@@ -3,6 +3,7 @@ package com.library.dao;
 import com.library.database.BookDatabase;
 
 
+import com.library.database.DatabaseConnection;
 import com.library.entity.BookEntity;
 
 import java.sql.*;
@@ -18,7 +19,7 @@ public class BookDAO {
 
             try {
 
-                Connection connection = BookDatabase.getConnection();
+                Connection connection = DatabaseConnection.getConnection();
 
                 PreparedStatement ps = connection.prepareStatement(insert);
 
@@ -47,7 +48,7 @@ public class BookDAO {
 
         try {
 
-            Connection connection = BookDatabase.getConnection();
+            Connection connection = DatabaseConnection.getConnection();
 
             PreparedStatement ps = connection.prepareStatement(select);
 
@@ -75,7 +76,7 @@ public class BookDAO {
         try {
 
 
-            Connection connection = BookDatabase.getConnection();
+            Connection connection = DatabaseConnection.getConnection();
             PreparedStatement ps = connection.prepareStatement(select);
 
             ps.setInt(1, bookId);
@@ -107,7 +108,7 @@ public class BookDAO {
         try {
 
 
-            Connection connection = BookDatabase.getConnection();
+            Connection connection =DatabaseConnection.getConnection();
             PreparedStatement ps = connection.prepareStatement(update);
 
             ps.setString(1, book.getBookName());
@@ -136,7 +137,7 @@ public class BookDAO {
         try {
 
 
-            Connection connection = BookDatabase.getConnection();
+            Connection connection = DatabaseConnection.getConnection();
 
             PreparedStatement ps = connection.prepareStatement(delete);
 
@@ -153,5 +154,86 @@ public class BookDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+    public boolean isBookExists(int bookId) {
+
+        String query = "SELECT * FROM bookmanagementsystem WHERE bookId = ?";
+
+        try {
+            Connection con = DatabaseConnection.getConnection();
+            PreparedStatement ps = con.prepareStatement(query);
+
+            ps.setInt(1, bookId);
+
+            ResultSet rs = ps.executeQuery();
+
+            return rs.next();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+    public boolean isBookAvailable(int bookId) {
+
+        String query = "SELECT bookQuantity FROM bookmanagementsystem WHERE bookId = ?";
+
+        try {
+            Connection con =  DatabaseConnection.getConnection();
+            PreparedStatement ps = con.prepareStatement(query);
+
+            ps.setInt(1, bookId);
+
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                return rs.getInt("bookQuantity") > 0;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+    public boolean decreaseBookQuantity(int bookId) {
+
+        String query = "UPDATE bookmanagementsystem SET bookQuantity = bookQuantity - 1 WHERE bookId = ?";
+
+        try {
+            Connection con = DatabaseConnection.getConnection();
+            PreparedStatement ps = con.prepareStatement(query);
+
+            ps.setInt(1, bookId);
+
+            return ps.executeUpdate() > 0;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+    public boolean increaseBookQuantity(int bookId) {
+
+        String query = "UPDATE bookmanagementsystem SET bookQuantity = bookQuantity + 1 WHERE bookId = ?";
+
+        try {
+            Connection con = DatabaseConnection.getConnection();
+
+            PreparedStatement ps = con.prepareStatement(query);
+
+            ps.setInt(1, bookId);
+
+            int rows = ps.executeUpdate();
+
+            return rows > 0;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return false;
     }
 }

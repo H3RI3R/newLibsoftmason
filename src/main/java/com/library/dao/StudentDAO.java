@@ -1,6 +1,7 @@
 package com.library.dao;
 
 import com.library.database.BookDatabase;
+import com.library.database.DatabaseConnection;
 import com.library.entity.Student;
 
 import java.sql.Connection;
@@ -16,27 +17,27 @@ public class StudentDAO {
     // 1. CHECK IF STUDENT ID ALREADY EXISTS
     // ==========================================
 
-    public boolean studentExists(int studentId) {
-
-        String sql = "SELECT student_id FROM students WHERE studentId = ?";
-
-        try (
-                Connection connection = BookDatabase.getConnection();
-                PreparedStatement statement = connection.prepareStatement(sql)
-        ) {
-
-            statement.setInt(1, studentId);
-
-            try (ResultSet resultSet = statement.executeQuery()) {
-                return resultSet.next();
-            }
-
-        } catch (SQLException e) {
-
-            System.out.println("Database error: " + e.getMessage());
-            return false;
-        }
-    }
+//    public boolean studentExists(int studentId) {
+//
+//        String sql = "SELECT student_id FROM students WHERE studentId = ?";
+//
+//        try (
+//                Connection connection = BookDatabase.getConnection();
+//                PreparedStatement statement = connection.prepareStatement(sql)
+//        ) {
+//
+//            statement.setInt(1, studentId);
+//
+//            try (ResultSet resultSet = statement.executeQuery()) {
+//                return resultSet.next();
+//            }
+//
+//        } catch (SQLException e) {
+//
+//            System.out.println("Database error: " + e.getMessage());
+//            return false;
+//        }
+//    }
 
 
     // ==========================================
@@ -227,17 +228,11 @@ VALUES (?, ?, ?, ?, ?, ?, ?, ?)
     }
 
 
-    // ==========================================
-    // HELPER METHOD
-    // Converts one MySQL row into Student object
-    // ==========================================
-
     private Student createStudent(
             ResultSet resultSet
     ) throws SQLException {
-
-        Student student =
-                new Student();
+//student entity
+        Student student =new Student();
 
 
 
@@ -266,5 +261,27 @@ VALUES (?, ?, ?, ?, ?, ?, ?, ?)
                 resultSet.getString("address");
 
         return student;
+    }
+    public boolean isStudentExists(int studentId) {
+
+        String query = "SELECT * FROM students WHERE studentId = ?";
+
+        try {
+            Connection con = DatabaseConnection.getConnection();
+            PreparedStatement ps = con.prepareStatement(query);
+
+            ps.setInt(1, studentId);
+
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                return true;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return false;
     }
 }

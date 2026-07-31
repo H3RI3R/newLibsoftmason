@@ -63,7 +63,11 @@ public class BookMenu {
             System.out.println("14. Return Issued Book");
             // we will ask the user to enter the issuedBookId and we will search the issuedBooks table and if it is found then we will delete
             // that row from the table and we will increase the quantity of that book by 1
-            System.out.println("15. Exit");
+            System.out.println(" 15.available books");
+System.out.println("16.student borrowed history");
+            System.out.println("17.today due books");
+            System.out.println("18. over due books");
+            System.out.println("19. Exit");
             //exit will close the application.
             System.out.println("====================================");
 

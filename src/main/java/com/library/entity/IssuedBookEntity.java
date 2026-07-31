@@ -10,13 +10,13 @@ public class IssuedBookEntity {
         private LocalDate issueDate;
         private LocalDate returnDate;
 
-        public int getIssuedBookId() {
-            return issuedBookId;
-        }
-
-        public void setIssuedBookId(int issuedBookId) {
-            this.issuedBookId = issuedBookId;
-        }
+//        public int getIssuedBookId() {
+//            return issuedBookId;
+//        }
+//
+//        public void setIssuedBookId(int issuedBookId) {
+//            this.issuedBookId = issuedBookId;
+//        }
 
         public int getStudentId() {
             return studentId;

@@ -233,6 +233,7 @@ VALUES (?, ?, ?, ?, ?, ?, ?, ?)
     ) throws SQLException {
 //student entity
         Student student =new Student();
+        student.studentId=resultSet.getInt("studentId");
 
 
 

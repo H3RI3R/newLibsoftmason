@@ -26,4 +26,12 @@ public class BookService {
     public void deleteBook(int bookId) {
         dao.deleteBook(bookId);
     }
+
+    public void availableBooks() {
+        dao.availableBooks();
+    }
+
+    public void studentBorrowHistory() {
+        dao.studentBorrowHistory();
+    }
 }

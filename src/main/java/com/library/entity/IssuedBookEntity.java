@@ -4,7 +4,7 @@ import java.time.LocalDate;
 public class IssuedBookEntity {
 
 
-        private int issuedBookId;
+
         private int studentId;
         private int bookId;
         private LocalDate issueDate;

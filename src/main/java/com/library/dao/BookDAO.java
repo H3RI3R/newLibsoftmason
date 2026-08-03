@@ -236,4 +236,115 @@ public class BookDAO {
 
         return false;
     }
+
+    // 15. Available Books
+    public void availableBooks() {
+
+         String sql="SELECT * FROM bookManagementSystem WHERE bookQuantity > 0";
+
+        try {
+            Connection con = DatabaseConnection.getConnection();
+
+            PreparedStatement ps = con.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                System.out.println("Book ID : " + rs.getInt("bookId"));
+                System.out.println("Book Name : " + rs.getString("bookName"));
+                System.out.println("Author : " + rs.getString("bookAuthorName"));
+                System.out.println("Quantity : " + rs.getInt("bookQuantity"));
+                System.out.println("Price : " + rs.getDouble("bookPrice"));
+                System.out.println("--------------------------------");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // 16. Student Borrow History
+    public void studentBorrowHistory() {
+
+        String sql = "SELECT s.studentId, s.student_name, b.bookName, "
+                + "bb.borrow_date, bb.due_date, bb.status "
+                + "FROM borrow_book bb "
+                + "JOIN students s ON bb.studentId = s.studentId "
+                + "JOIN bookmanagementsystem b ON bb.bookId = b.bookId";
+
+        try {
+            Connection con = DatabaseConnection.getConnection();
+
+            PreparedStatement ps = con.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                System.out.println("Student ID : " + rs.getInt("studentId"));
+                System.out.println("Student Name : " + rs.getString("student_name"));
+                System.out.println("Book Name : " + rs.getString("book_name"));
+                System.out.println("Borrow Date : " + rs.getDate("borrow_date"));
+                System.out.println("Due Date : " + rs.getDate("due_date"));
+                System.out.println("Status : " + rs.getString("status"));
+                System.out.println("--------------------------------");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // 17. Today's Due Books
+    public void todayDueBooks() {
+
+        String sql = "SELECT s.student_name, b.bookName, bb.due_date "
+                + "FROM borrow_book bb "
+                + "JOIN students s ON bb.studentId = s.studentId "
+                + "JOIN bookmanagementsystem b ON bb.bookId = b.bookId "
+                + "WHERE bb.due_date = CURDATE() "
+                + "AND bb.status = 'Borrowed'";
+
+        try {
+            Connection con = DatabaseConnection.getConnection();
+
+            PreparedStatement ps = con.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                System.out.println("Student Name : " + rs.getString("student_name"));
+                System.out.println("Book Name : " + rs.getString("bookName"));
+                System.out.println("Due Date : " + rs.getDate("due_date"));
+                System.out.println("--------------------------------");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // 18. Overdue Books
+    public void overDueBooks() {
+
+        String sql = "SELECT s.student_name, b.bookName, bb.due_date "
+                + "FROM borrow_book bb "
+                + "JOIN students s ON bb.studentId = s.studentId "
+                + "JOIN bookmanagementsystem b ON bb.bookId = b.bookId "
+                + "WHERE bb.due_date < CURDATE() "
+                + "AND bb.status = 'Borrowed'";
+
+        try {
+            Connection con = DatabaseConnection.getConnection();
+
+            PreparedStatement ps = con.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                System.out.println("Student Name : " + rs.getString("student_name"));
+                System.out.println("Book Name : " + rs.getString("bookName"));
+                System.out.println("Due Date : " + rs.getDate("due_date"));
+                System.out.println("--------------------------------");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }

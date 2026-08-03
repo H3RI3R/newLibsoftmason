@@ -34,9 +34,5 @@ public class BookUtil {
         return book;
     }
 
-//    public static int getBookId() {
-//
-//        System.out.print("Enter Book ID: ");
-//        return sc.nextInt();
-//    }
+
 }

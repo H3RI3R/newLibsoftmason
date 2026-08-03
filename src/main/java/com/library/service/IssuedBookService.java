@@ -81,4 +81,14 @@ public class IssuedBookService {
             System.out.println("Book Return Failed.");
         }
     }
+    public void availableBooks() {
+        issuedDao.availableBooks();
+    }
+
+    public void studentBorrowHistory() {
+        issuedDao.studentBorrowHistory();
+    }
+
+
+
 }

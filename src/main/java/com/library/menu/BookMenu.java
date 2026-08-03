@@ -67,6 +67,8 @@ public class BookMenu {
 System.out.println("16.student borrowed history");
             System.out.println("17.today due books");
             System.out.println("18. over due books");
+
+
             System.out.println("19. Exit");
             //exit will close the application.
             System.out.println("====================================");
@@ -218,7 +220,23 @@ System.out.println("16.student borrowed history");
 
                     break;
 
+
                 case 15:
+                    issuedService.availableBooks();
+                    break;
+
+                case 16:
+                    issuedService.studentBorrowHistory();
+                    break;
+
+//                case 17:
+//                    issuedService.todayDueBooks();
+//                    break;
+//
+//                case 18:
+//                    issuedService.overDueBooks();
+//                    break;
+                case 17:
 
                     System.out.println("Thank You!");
 

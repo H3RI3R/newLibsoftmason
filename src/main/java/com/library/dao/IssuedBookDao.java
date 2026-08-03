@@ -2,7 +2,7 @@ package com.library.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-
+import java.sql.SQLException;
 import com.library.database.DatabaseConnection;
 import com.library.entity.IssuedBookEntity;
 
@@ -140,5 +140,57 @@ public class IssuedBookDao {
 
         return -1;
     }
-}
+    public void availableBooks() {
+
+        String sql = "SELECT * FROM bookManagementSystem WHERE bookQuantity > 0";
+
+        try {
+            Connection con = DatabaseConnection.getConnection();
+            PreparedStatement ps = con.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                System.out.println("--------------------------------");
+                System.out.println("Book ID : " + rs.getInt("bookId"));
+                System.out.println("Book Name : " + rs.getString("bookName"));
+                System.out.println("Author : " + rs.getString("bookAuthorName"));
+                System.out.println("Quantity : " + rs.getInt("bookQuantity"));
+                System.out.println("Price : " + rs.getDouble("bookPrice"));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    public void studentBorrowHistory() {
+
+        String sql = "SELECT s.studentId,s.student_name,b.bookName,"
+                + "i.issueDate,i.returnDate "
+                + "FROM issued_books i "
+                + "JOIN students s ON i.studentId=s.studentId "
+                + "JOIN bookManagementSystem b ON i.bookId=b.bookId";
+
+        try {
+            Connection con = DatabaseConnection.getConnection();
+
+            PreparedStatement ps = con.prepareStatement(sql);
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+
+                System.out.println("--------------------------------");
+                System.out.println("Student ID : " + rs.getInt("studentId"));
+                System.out.println("Student Name : " + rs.getString("student_name"));
+                System.out.println("Book Name : " + rs.getString("bookName"));
+                System.out.println("Issue Date : " + rs.getDate("issueDate"));
+                System.out.println("Return Date : " + rs.getDate("returnDate"));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    }
 

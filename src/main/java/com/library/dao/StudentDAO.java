@@ -135,7 +135,7 @@ VALUES (?, ?, ?, ?, ?, ?, ?, ?)
     // ==========================================
     public Student searchStudent(int studentId) {
 
-        String sql = "SELECT * FROM students WHERE studentId = ?";
+        String sql = "SELECT * FROM students WHERE student_id = ?";
 
         try (
                 Connection connection = BookDatabase.getConnection();
@@ -166,7 +166,7 @@ VALUES (?, ?, ?, ?, ?, ?, ?, ?)
 
     public boolean updateStudent(int studentId, String newPhone, String newEmail) {
 
-        String sql = "UPDATE students SET phone = ?, email = ? WHERE studentId = ?";
+        String sql = "UPDATE students SET phone = ?, email = ? WHERE student_id = ?";
 
         try (
                 Connection connection = BookDatabase.getConnection();
@@ -196,7 +196,7 @@ VALUES (?, ?, ?, ?, ?, ?, ?, ?)
     public boolean deleteStudent(int studentId) {
 
         String sql =
-                "DELETE FROM students WHERE studentId = ?";
+                "DELETE FROM students WHERE student_id = ?";
 
         try (
                 Connection connection= BookDatabase.getConnection();
@@ -233,7 +233,7 @@ VALUES (?, ?, ?, ?, ?, ?, ?, ?)
     ) throws SQLException {
 //student entity
         Student student =new Student();
-        student.studentId=resultSet.getInt("studentId");
+        student.studentId=resultSet.getInt("student_id");
 
 
 
@@ -265,7 +265,7 @@ VALUES (?, ?, ?, ?, ?, ?, ?, ?)
     }
     public boolean isStudentExists(int studentId) {
 
-        String query = "SELECT * FROM students WHERE studentId = ?";
+        String query = "SELECT * FROM students WHERE student_id = ?";
 
         try {
             Connection con = DatabaseConnection.getConnection();
@@ -284,5 +284,46 @@ VALUES (?, ?, ?, ?, ?, ?, ?, ?)
         }
 
         return false;
+    }
+    // Search Student By Name
+    public void searchStudentByName(String studentName) {
+
+        String query = "SELECT * FROM students WHERE student_name LIKE ?";
+
+        try {
+
+            Connection con = DatabaseConnection.getConnection();
+
+            PreparedStatement ps = con.prepareStatement(query);
+
+            ps.setString(1, "%" + studentName + "%");
+
+            ResultSet rs = ps.executeQuery();
+
+            boolean found = false;
+
+            while (rs.next()) {
+
+                found = true;
+
+                System.out.println("--------------------------------");
+                System.out.println("Student ID : " + rs.getInt("student_id"));
+                System.out.println("Student Name : " + rs.getString("student_name"));
+                System.out.println("Department : " + rs.getString("department"));
+                System.out.println("Year : " + rs.getInt("year"));
+                System.out.println("Section : " + rs.getString("section"));
+                System.out.println("Roll Number : " + rs.getString("roll_number"));
+                System.out.println("Phone : " + rs.getString("phone"));
+                System.out.println("Email : " + rs.getString("email"));
+                System.out.println("Address : " + rs.getString("address"));
+            }
+
+            if (!found) {
+                System.out.println("Student Not Found.");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

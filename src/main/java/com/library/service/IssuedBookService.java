@@ -8,8 +8,8 @@ import com.library.entity.IssuedBookEntity;
 public class IssuedBookService {
 
     IssuedBookDao issuedDao = new IssuedBookDao();
- BookDAO bookDao = new BookDAO();
-     StudentDAO studentDao = new StudentDAO();
+    BookDAO bookDao = new BookDAO();
+    StudentDAO studentDao = new StudentDAO();
 
     // Issue Book
     public void issueBook(IssuedBookEntity issueBook) {
@@ -23,6 +23,17 @@ public class IssuedBookService {
         // Check Book
         if (!bookDao.isBookExists(issueBook.getBookId())) {
             System.out.println("Book ID Not Found.");
+            return;
+        }
+        // Check Student Borrow Limit
+        if (issuedDao.getIssuedBookCount(issueBook.getStudentId()) >= 3) {
+
+            System.out.println("=================================");
+            System.out.println("Student already borrowed 4 books.");
+            System.out.println("Maximum borrowing limit is 4 books.");
+            System.out.println("Please return a book before issuing a new one.");
+            System.out.println("=================================");
+
             return;
         }
 
@@ -88,7 +99,12 @@ public class IssuedBookService {
     public void studentBorrowHistory() {
         issuedDao.studentBorrowHistory();
     }
-
+    public void todayDueBooks() {
+        issuedDao.todayDueBooks();
+    }
+    public void overDueBooks() {
+        issuedDao.overDueBooks();
+    }
 
 
 }

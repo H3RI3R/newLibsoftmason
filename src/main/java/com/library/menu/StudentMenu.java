@@ -185,33 +185,40 @@ public class StudentMenu {
 
     public static void searchStudent() {
 
-        int studentId =
-                readInt(
-                        "Enter Student ID to search: "
-                );
+        System.out.println("\n===== SEARCH STUDENT =====");
+        System.out.println("1. Search by Student ID");
+        System.out.println("2. Search by Student Name");
 
-        Student student =
-                studentService.searchStudent(
-                        studentId
-                );
+        int choice = readInt("Enter your choice: ");
 
-        if (student != null) {
+        if (choice == 1) {
 
-            System.out.println(
-                    "\n===== STUDENT FOUND ====="
-            );
+            int studentId = readInt("Enter Student ID: ");
 
-            displayStudent(student);
+            Student student = studentService.searchStudent(studentId);
+
+            if (student != null) {
+
+                displayStudent(student);
+
+            } else {
+
+                System.out.println("Student Not Found.");
+            }
+
+        } else if (choice == 2) {
+
+            System.out.print("Enter Student Name: ");
+
+            String studentName = scanner.nextLine();
+
+            studentService.searchStudentByName(studentName);
 
         } else {
 
-            System.out.println(
-                    "Student not found!"
-            );
+            System.out.println("Invalid Choice!");
         }
     }
-
-
     // ==========================================
     // 4. UPDATE STUDENT
     // ==========================================

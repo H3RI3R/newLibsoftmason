@@ -11,7 +11,7 @@ import com.library.service.StudentService;
 
 public class BookMenu {
     static IssuedBookService issuedService = new IssuedBookService();
-    static IssuedBookEntity issue = new IssuedBookEntity();
+
     public static void validYear(int year){
         if(year < 1000 || year>9999){
             System.out.println("Year is Not a valid Year it should be between 1000 and 9999");
@@ -64,7 +64,7 @@ public class BookMenu {
             // we will ask the user to enter the issuedBookId and we will search the issuedBooks table and if it is found then we will delete
             // that row from the table and we will increase the quantity of that book by 1
             System.out.println(" 15.available books");
-System.out.println("16.student borrowed history");
+            System.out.println("16.student borrowed history");
             System.out.println("17.today due books");
             System.out.println("18. over due books");
 
@@ -112,10 +112,33 @@ System.out.println("16.student borrowed history");
 
                 case 3:
 
-                    System.out.print("Enter Book ID: ");
-                    int searchId = sc.nextInt();
+                    System.out.println("\n===== SEARCH BOOK =====");
+                    System.out.println("1. Search by Book ID");
+                    System.out.println("2. Search by Book Name");
 
-                    service.searchBook(searchId);
+                    System.out.print("Enter your choice: ");
+                    int searchChoice = sc.nextInt();
+                    sc.nextLine();
+
+                    if (searchChoice == 1) {
+
+                        System.out.print("Enter Book ID: ");
+                        int searchId = sc.nextInt();
+
+                        service.searchBook(searchId);
+
+                    } else if (searchChoice == 2) {
+
+                        System.out.print("Enter Book Name: ");
+                        String bookName = sc.nextLine();
+
+                        service.searchBookByName(bookName);
+
+                    } else {
+
+                        System.out.println("Invalid Choice!");
+                    }
+
                     break;
 
                 case 4:
@@ -175,7 +198,7 @@ System.out.println("16.student borrowed history");
                     break;
                 case 11:
 
-
+                    IssuedBookEntity issue = new IssuedBookEntity();
 
                     System.out.print("Enter Student ID: ");
                     issue.setStudentId(sc.nextInt());
@@ -229,14 +252,14 @@ System.out.println("16.student borrowed history");
                     issuedService.studentBorrowHistory();
                     break;
 
-//                case 17:
-//                    issuedService.todayDueBooks();
-//                    break;
-//
-//                case 18:
-//                    issuedService.overDueBooks();
-//                    break;
                 case 17:
+                    issuedService.todayDueBooks();
+                    break;
+
+                case 18:
+                    issuedService.overDueBooks();
+                    break;
+                case 19:
 
                     System.out.println("Thank You!");
 

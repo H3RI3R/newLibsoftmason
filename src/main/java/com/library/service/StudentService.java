@@ -168,4 +168,9 @@ public class StudentService {
                 "-----------------------------"
         );
     }
+    // Search Student By Name
+    public void searchStudentByName(String studentName) {
+
+        studentDAO.searchStudentByName(studentName);
+    }
 }

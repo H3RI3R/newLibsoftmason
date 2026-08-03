@@ -347,4 +347,42 @@ public class BookDAO {
             e.printStackTrace();
         }
     }
+    // Search Book By Name
+    public void searchBookByName(String bookName) {
+
+        String query = "SELECT * FROM bookManagementSystem WHERE bookName LIKE ?";
+
+        try {
+
+            Connection con = DatabaseConnection.getConnection();
+
+            PreparedStatement ps = con.prepareStatement(query);
+
+            ps.setString(1, "%" + bookName + "%");
+
+            ResultSet rs = ps.executeQuery();
+
+            boolean found = false;
+
+            while (rs.next()) {
+
+                found = true;
+
+                System.out.println("--------------------------------");
+                System.out.println("Book ID : " + rs.getInt("bookId"));
+                System.out.println("Book Name : " + rs.getString("bookName"));
+                System.out.println("Author : " + rs.getString("bookAuthorName"));
+                System.out.println("Publish Year : " + rs.getInt("bookPublishYear"));
+                System.out.println("Quantity : " + rs.getInt("bookQuantity"));
+                System.out.println("Price : " + rs.getDouble("bookPrice"));
+            }
+
+            if (!found) {
+                System.out.println("Book Not Found.");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }

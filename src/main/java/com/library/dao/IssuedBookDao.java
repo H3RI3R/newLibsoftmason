@@ -10,7 +10,7 @@ public class IssuedBookDao {
     // Issue a Book
     public boolean issueBook(IssuedBookEntity book) {
 
-        String query = "INSERT INTO issued_books(studentId, bookId, issueDate, returnDate) VALUES(?,?,?,?)";
+        String query = "INSERT INTO issued_books(student_id, bookId, issueDate, returnDate) VALUES(?,?,?,?)";
 
         try {
             Connection con = DatabaseConnection.getConnection();
@@ -50,7 +50,7 @@ public class IssuedBookDao {
 
                 System.out.println("----------------------------");
                 System.out.println("Issued Book ID : " + rs.getInt("issuedBookId"));
-                System.out.println("Student ID     : " + rs.getInt("studentId"));
+                System.out.println("Student ID     : " + rs.getInt("student_id"));
                 System.out.println("Book ID        : " + rs.getInt("bookId"));
                 System.out.println("Issue Date     : " + rs.getDate("issueDate"));
                 System.out.println("Return Date    : " + rs.getDate("returnDate"));
@@ -80,7 +80,7 @@ public class IssuedBookDao {
 
                 System.out.println("----------------------------");
                 System.out.println("Issued Book ID : " + rs.getInt("issuedBookId"));
-                System.out.println("Student ID     : " + rs.getInt("studentId"));
+                System.out.println("Student ID     : " + rs.getInt("student_id"));
                 System.out.println("Book ID        : " + rs.getInt("bookId"));
                 System.out.println("Issue Date     : " + rs.getDate("issueDate"));
                 System.out.println("Return Date    : " + rs.getDate("returnDate"));
@@ -164,10 +164,10 @@ public class IssuedBookDao {
     }
     public void studentBorrowHistory() {
 
-        String sql = "SELECT s.studentId,s.student_name,b.bookName,"
+        String sql = "SELECT s.student_id,s.student_name,b.bookName,"
                 + "i.issueDate,i.returnDate "
                 + "FROM issued_books i "
-                + "JOIN students s ON i.studentId=s.studentId "
+                + "JOIN students s ON i.student_id=s.student_id "
                 + "JOIN bookManagementSystem b ON i.bookId=b.bookId";
 
         try {
@@ -180,7 +180,7 @@ public class IssuedBookDao {
             while (rs.next()) {
 
                 System.out.println("--------------------------------");
-                System.out.println("Student ID : " + rs.getInt("studentId"));
+                System.out.println("Student ID : " + rs.getInt("student_id"));
                 System.out.println("Student Name : " + rs.getString("student_name"));
                 System.out.println("Book Name : " + rs.getString("bookName"));
                 System.out.println("Issue Date : " + rs.getDate("issueDate"));
@@ -191,6 +191,67 @@ public class IssuedBookDao {
             e.printStackTrace();
         }
     }
-
+    public void todayDueBooks() {
+        String sql = "SELECT s.student_name,b.bookName,i.returnDate "
+                + "FROM issued_books i " +
+                "JOIN students s ON i.student_id=s.student_id "
+                + "JOIN bookManagementSystem b ON i.bookId=b.bookId "
+                + "WHERE i.returnDate = CURDATE()";
+        try {
+            Connection con = DatabaseConnection.getConnection();
+            PreparedStatement ps = con.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                System.out.println("--------------------------------");
+                System.out.println("Student Name : " + rs.getString("student_name"));
+                System.out.println("Book Name : " + rs.getString("bookName"));
+                System.out.println("Return Date : " + rs.getDate("returnDate")); } }
+        catch (SQLException e) { e.printStackTrace(); }
     }
+    public void overDueBooks() {
+        String sql = "SELECT s.student_name,b.bookName,i.returnDate "
+                + "FROM issued_books i " +
+                "JOIN students s ON i.student_id=s.student_id " +
+                "JOIN bookManagementSystem b ON i.bookId=b.bookId " +
+                "WHERE i.returnDate < CURDATE()";
+        try { Connection con = DatabaseConnection.getConnection();
+            PreparedStatement ps = con.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                System.out.println("--------------------------------");
+                System.out.println("Student Name : " + rs.getString("student_name"));
+                System.out.println("Book Name : " + rs.getString("bookName"));
+                System.out.println("Return Date : " + rs.getDate("returnDate")); }
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace(); }
+    }
+    // Count how many books a student has borrowed
+    public int getIssuedBookCount(int studentId) {
 
+        String query = "SELECT COUNT(*) FROM issued_books WHERE student_id = ?";
+
+        try {
+
+            Connection con = DatabaseConnection.getConnection();
+
+            PreparedStatement ps = con.prepareStatement(query);
+
+            ps.setInt(1, studentId);
+
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+
+                return rs.getInt(1);
+            }
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+        }
+
+        return 0;
+    }
+}

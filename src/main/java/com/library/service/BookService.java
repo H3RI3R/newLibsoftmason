@@ -34,4 +34,9 @@ public class BookService {
     public void studentBorrowHistory() {
         dao.studentBorrowHistory();
     }
+    // Search Book By Name
+    public void searchBookByName(String bookName) {
+
+        dao.searchBookByName(bookName);
+    }
 }
